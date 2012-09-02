@@ -8,23 +8,39 @@
 				margin: 20px auto;
 				width: 500px;
 			}
+			article{
+				clear: both;
+			}
 			label{
 				text-align:right;
 			}
+			#controls{ display: none; }
 		</style>
 	</head>
 	<body>
 		<section>
-		<label>Server IP: <input class="input-medium" value="10.0.0." type="text" id="id_server_ip"> <i class="icon-" id="server_icon"></i></label>
-		<label>Client IP: <input class="input-medium" value="10.0.0." type="text" id="id_client_ip"> <i class="icon-" id="client_icon"></i></label>
-
-		<div>
-			<h3 id="server-header"></h3>
-			<div id="client-list"></div>
-		</div>
+		<header>
+			<div id="controls" class="pull-left btn-group">
+				<!-- <a class="btn btn-primary" id="backward"><i class="icon-white icon-backward"></i></a> -->
+				<a class="btn btn-primary" id="play"><i class="icon-white icon-play"></i></a>
+				<a class="btn btn-primary" id="pause"><i class="icon-white icon-pause"></i></a>
+				<!-- <a class="btn btn-primary" id="forward"><i class="icon-white icon-forward"></i></a> -->
+			</div>
+			<div class="pull-right">
+				<label>Server IP: <input class="input-medium" value="10.0.0." type="text" id="id_server_ip"> <i class="icon-" id="server_icon"></i></label>
+				<label>Client IP: <input class="input-medium" value="10.0.0." type="text" id="id_client_ip"> <i class="icon-" id="client_icon"></i></label>
+			</div>
+		</header>
+		<article>
+			<div>
+				<h3 id="server-header"></h3>
+				<div id="client-list"></div>
+			</div>
+		</article>
 		</section>
 		<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
 		<script>
+
 			$(document).ready(function(){
 				var server = "";
 				var client = "";
@@ -36,8 +52,27 @@
 				$("#id_client_ip").change(function(){
 					client = $(this).val();
 					$("#client_icon").addClass("icon-ok-circle");
-
+					$("#controls:hidden").fadeIn();
 				});
+				$("#play").click(function(){
+					performPlaybackCommand('play');
+				});
+				$("#pause").click(function(){
+					performPlaybackCommand('pause');
+				});
+				
+				function performPlaybackCommand (command) {
+					$.ajax({
+  						url: "http://" + server + "/system/players/" + client + "/playback/" + command,
+						success: function(){
+
+						},
+						error: function(){
+							alert(':(');
+						}
+					});
+				}
+
 				function updateClientList(){
 					$.ajax({
   						url: "http://" + server + "/clients",
