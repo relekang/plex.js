@@ -9,15 +9,12 @@
         <section>
             <header>
                 <div id="controls" class="pull-left btn-group">
-                    <!-- <a class="btn btn-primary" id="backward"><i class="icon-white icon-backward"></i></a> -->
+                    <a class="btn btn-primary" id="backward"><i class="icon-white icon-backward"></i></a>
                     <a class="btn btn-primary" id="play"><i class="icon-white icon-play"></i></a>
                     <a class="btn btn-primary" id="pause"><i class="icon-white icon-pause"></i></a>
-                    <!-- <a class="btn btn-primary" id="forward"><i class="icon-white icon-forward"></i></a> -->
+                    <a class="btn btn-primary" id="forward"><i class="icon-white icon-forward"></i></a>
                 </div>
-                <div class="pull-right">
-                    <label>Server IP: <input class="input-medium" value="10.0.0." type="text" id="id_server_ip"> <i class="icon-" id="server_icon"></i></label>
-                    <label>Client IP: <input class="input-medium" value="10.0.0." type="text" id="id_client_ip"> <i class="icon-" id="client_icon"></i></label>
-                </div>
+
             </header>
             <article>
                 <div>
@@ -28,9 +25,24 @@
         </section>
         <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
         <script src="less.min.js"></script>
-        <script>
+        <script src="plex.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var remote = new PlexRemote('10.0.0.108:32400', '10.0.0.51');
 
-
+                $("#play").click(function(){
+                    remote.play();
+                });
+                $("#pause").click(function(){
+                    remote.pause();
+                });
+                $("#forward").click(function(){
+                    remote.stepForward();
+                });
+                $("#backward").click(function(){
+                    remote.stepBack();
+                });
+            });
         </script>
     </body>
 </html>
